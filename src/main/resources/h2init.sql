@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS room (
+  id        IDENTITY PRIMARY KEY,
+  room_name VARCHAR(255)
+);
+CREATE TABLE IF NOT EXISTS user (
+id          IDENTITY PRIMARY KEY,
+name        VARCHAR(255),
+room_number INTEGER ,
+FOREIGN KEY (room_number) REFERENCES room(id) ON DELETE CASCADE
+);

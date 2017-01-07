@@ -6,7 +6,7 @@
 
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="db.properties"/>
+        <property name="locations" value="classpath*:"/>
     </bean>
 
     <beans profile="postgres">

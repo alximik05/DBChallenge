@@ -6,7 +6,12 @@
 
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="locations" value="classpath*:"/>
+        <property name="locations" >
+            <list>
+                <value>application.properties</value>
+                <value>db.properties</value>
+            </list>
+        </property>
     </bean>
 
     <beans profile="postgres">
@@ -20,6 +25,19 @@
         <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
             <constructor-arg name="dataSource" ref="postgresDataSource"/>
             <constructor-arg name="lazyInit" value="false"/>
+        </bean>
+
+        <bean id="sessionFactory"
+              class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+            <property name="packagesToScan" value="info.grishaev.model"/>
+            <!--<property name="annotatedPackages" value="info.grishaev.model"/>-->
+            <property name="dataSource" ref="postgresDataSource"/>
+            <property name="hibernateProperties">
+                <props>
+                    <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL9Dialect</prop>
+                    <prop key="hibernate.show_sql">true</prop>
+                </props>
+            </property>
         </bean>
     </beans>
 
@@ -35,6 +53,20 @@
             <constructor-arg name="dataSource" ref="h2dataSource"/>
             <constructor-arg name="lazyInit" value="false"/>
         </bean>
+
+        <bean id="sessionFactory"
+              class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+            <property name="packagesToScan" value="info.grishaev.model"/>
+            <!--<property name="annotatedPackages" value="info.grishaev.model"/>-->
+            <property name="dataSource" ref="h2dataSource"/>
+            <property name="hibernateProperties">
+                <props>
+                    <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+                    <prop key="hibernate.show_sql">true</prop>
+                </props>
+            </property>
+        </bean>
+
     </beans>
 
 </beans>
